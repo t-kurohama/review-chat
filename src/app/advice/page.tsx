@@ -4,10 +4,10 @@ import { useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useProductSearch } from '@/hooks/useProductSearch';
 import { ProductCard } from '@/components/ProductCard';
-import { Search, ArrowLeft } from 'lucide-react';
+import { MessageCircle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-function SearchContent() {
+function AdviceContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get('q') || '';
     const { products, loading, error, searchProducts } = useProductSearch();
@@ -15,16 +15,16 @@ function SearchContent() {
 
     useEffect(() => {
         if (query) {
-            searchProducts(query);
+            searchProducts(query); // ← 商品相談なので検索処理はそのまま使う
         }
     }, [query]);
 
-    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleAdvice = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const newQuery = formData.get('q') as string;
         if (newQuery.trim()) {
-            router.push(`/search?q=${encodeURIComponent(newQuery)}`);
+            router.push(`/advice?q=${encodeURIComponent(newQuery)}`);
         }
     };
 
@@ -35,22 +35,22 @@ function SearchContent() {
                     <Link href="/" className="p-2 hover:bg-gray-100 rounded-full text-gray-600">
                         <ArrowLeft className="w-5 h-5" />
                     </Link>
-                    <form onSubmit={handleSearch} className="flex-1 max-w-2xl relative">
+                    <form onSubmit={handleAdvice} className="flex-1 max-w-2xl relative">
                         <input
                             name="q"
                             defaultValue={query}
                             type="text"
-                            placeholder="商品を検索..."
+                            placeholder="商品について相談してみましょう"
                             className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                        <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+                        <MessageCircle className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
                     </form>
                 </div>
             </header>
 
             <main className="max-w-7xl mx-auto px-4 py-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">
-                    "{query}" の検索結果
+                    "{query}" の相談結果
                 </h2>
 
                 {loading && (
@@ -69,7 +69,9 @@ function SearchContent() {
 
                 {!loading && !error && products.length === 0 && (
                     <div className="text-center py-12">
-                        <p className="text-gray-500">商品が見つかりませんでした。</p>
+                        <p className="text-gray-500">
+                            条件に合う商品が見つかりませんでした。
+                        </p>
                     </div>
                 )}
 
@@ -83,10 +85,10 @@ function SearchContent() {
     );
 }
 
-export default function SearchPage() {
+export default function AdvicePage() {
     return (
         <Suspense fallback={<div className="min-h-screen bg-gray-50" />}>
-            <SearchContent />
+            <AdviceContent />
         </Suspense>
     );
 }
