@@ -38,6 +38,7 @@ export default function Home() {
                     <p className="text-gray-600">
                         AIアドバイザーと一緒に、最適な商品を見つけましょう。
                     </p>
+                    <p>deploy test</p>
                 </div>
 
                 <form onSubmit={handleSearch} className="relative max-w-xl mx-auto">
