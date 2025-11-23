@@ -10,7 +10,9 @@ export async function GET(request: Request) {
             return NextResponse.json({ products: [] });
         }
 
+        // B案：楽天5件を主リストとし、Yahooで補完
         const products = await searchRakutenProducts(query);
+
         return NextResponse.json({ products });
 
     } catch (error) {
