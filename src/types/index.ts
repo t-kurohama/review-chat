@@ -6,6 +6,14 @@ export interface Product {
     url: string;
     description?: string;
     rating?: number;
+    reviewAverage_rakuten?: number;
+    reviewCount_rakuten?: number;
+    reviewAverage_yahoo?: number;
+    reviewCount_yahoo?: number;
+    ranking_rakuten?: number | null;
+    ranking_search?: number;
+    affiliate_rakuten?: string;
+    affiliate_yahoo?: string;
 }
 
 export interface ChatMessage {
